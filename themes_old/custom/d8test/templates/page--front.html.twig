@@ -1,0 +1,67 @@
+ <header role="banner" class="header">
+  <div class="container">
+  <div class="row">
+    {{ page.header }}
+    </div>
+    </div>
+  </header>
+  <div class="hero">
+    <div class="container">
+        {{ page.highlighted }}
+    </div>
+  </div>
+  <div class="company-service">
+
+       {{ page.company_services }}
+
+  </div>
+<div class="container">
+
+
+
+  {{ page.primary_menu }}
+  {{ page.secondary_menu }}
+
+  {{ page.breadcrumb }}
+
+
+
+  {{ page.help }}
+
+  <main role="main">
+    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
+
+    <div class="layout-content home-content">
+      {{ page.company_mission }}
+    </div>{# /.layout-content #}
+
+    {% if page.sidebar_first %}
+      <aside class="layout-sidebar-first" role="complementary">
+        {{ page.sidebar_first }}
+      </aside>
+    {% endif %}
+
+    {% if page.sidebar_second %}
+      <aside class="layout-sidebar-second" role="complementary">
+        {{ page.sidebar_second }}
+      </aside>
+    {% endif %}
+
+  </main>
+
+
+
+</div>{# /.layout-container #}
+
+  <div class="enquire-form">
+      <div class="container">
+       {{ page.footline }}
+</div>
+  </div>
+ {% if page.footer %}
+    <footer role="contentinfo" class="footer">
+    <div class="container">
+      {{ page.footer }}
+      </div>
+    </footer>
+  {% endif %}

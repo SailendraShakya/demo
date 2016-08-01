@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\token\Kernel\NodeTest.
+ */
+
 namespace Drupal\Tests\token\Kernel;
 
-use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
+use Drupal\node\Entity\Node;
 
 /**
  * Test the node and content type tokens.

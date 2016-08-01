@@ -1,0 +1,20 @@
+<h1 class="project-title">{{ title }}</h1>
+<ul class="project-list">
+<li><ul>
+    <li class="serial">SN</li>
+    <li class="plable">Lable</li>
+    <li class="pname">Project Name</li>
+    <li class="pduration">Duration</li>
+    <li class="pusername">Username</li>
+  </ul></li>
+{% for project in projects %}
+  <li><ul>
+    <li class="serial">{{loop.index}}</li>
+    <li class="plable">{{ project.label}}</li>
+    <li class="pname">{{ project.name}}</li>
+    <li class="pduration">{{ project.duration}}</li>
+    <li class="pusername">{{ project.username }}</li>
+  </ul></li>
+{% endfor %}
+</ul>
+

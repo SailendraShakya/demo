@@ -1,0 +1,16 @@
+# Projects menu items definition
+entity.projects.collection:
+  title: 'Projects'
+  route_name: entity.projects.collection
+  description: 'List Projects (bundles)'
+  parent: system.admin_structure
+  weight: 99
+
+# User menu items definition
+entity.projectuser.collection:
+  title: 'User'
+  route_name: entity.projectuser.collection
+  description: 'List User (bundles)'
+  parent: system.admin_structure
+  weight: 99
+

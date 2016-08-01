@@ -1,0 +1,60 @@
+ <header role="banner" class="header">
+  <div class="container">
+  <div class="row">
+    {{ page.header }}
+    </div>
+    </div>
+  </header>
+ <section class="breadcrumbs">
+   <div class="container">
+       {{ page.breadcrumb }}
+   </div>
+ </section>
+ <section class="main-content">
+<div class="container">
+
+ 
+
+  {{ page.primary_menu }}
+  {{ page.secondary_menu }}
+
+
+
+
+
+  {{ page.help }}
+
+  <main role="main">
+    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
+   {% if page.sidebar_primary %}
+   <div class="col-sm-4">
+      <aside class="layout-sidebar-first sidebar" role="complementary">
+        {{ page.sidebar_primary }}
+      </aside>
+      </div>
+    {% endif %}
+    <div class="layout-content col-sm-8">
+      {{ page.content }}
+    </div>{# /.layout-content #}
+
+ 
+
+    {% if page.sidebar_second %}
+      <aside class="layout-sidebar-second" role="complementary">
+        {{ page.sidebar_second }}
+      </aside>
+    {% endif %}
+
+  </main>
+
+  
+
+</div>{# /.layout-container #}
+</section>
+ {% if page.footer %}
+    <footer role="contentinfo" class="footer">
+    <div class="container">
+      {{ page.footer }}
+      </div>
+    </footer>
+  {% endif %}

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\token\Kernel\EntityTest.
+ */
+
 namespace Drupal\Tests\token\Kernel;
 
 use Drupal\Component\Utility\Unicode;

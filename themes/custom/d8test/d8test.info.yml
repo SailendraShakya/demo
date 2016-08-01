@@ -1,0 +1,24 @@
+name: d8test theme
+type: theme
+description: this is d8test theme
+core: 8.x
+libraries:
+  - d8test/global-styling
+  - d8test/global-js
+
+regions:
+  header: Header
+  navigation: 'Navigation'
+  banner: Home Banner
+  highlighted: Highlighted
+  company_services: Company services
+  breadcrumb: Breadcrumb
+  headline: 'Headline'
+  company_mission: 'Company Mission'
+  content: Content
+  sidebar_primary: 'Sidebar Primary'
+  sidebar_secondary: 'Sidebar Secondary'
+  footline: 'Footline'
+  footer: 'Footer'
+
+

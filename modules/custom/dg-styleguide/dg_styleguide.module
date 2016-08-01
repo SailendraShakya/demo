@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Return registered styleguide sections.
+ *
+ * @return array
+ */
+function _dg_styleguide()
+{
+    return [
+        'base' => [
+            'title' => t('Base'),
+            'components' => [
+                'sets' => t('Type Sets'),
+                'typography' => t('Typography'),
+                'tables' => t('Tables'),
+                'forms' => t('Forms')
+            ]
+        ]
+    ];
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * @return array
+ */
+function dg_styleguide_theme($existing, $type, $theme, $path)
+{
+    $build = [];
+    $build['styleguide_section'] = [
+        'variables' => [
+            'title' => NULL,
+            'section' => NULL
+        ]
+    ];
+    $build['styleguide_component'] = [
+        'variables' => [
+            'title' => NULL,
+            'component' => NULL
+        ]
+    ];
+    // Loop register styleguide sections.
+    foreach (_dg_styleguide() as $section => $section_atts) {
+        foreach ($section_atts['components'] as $component_id => $component_label) {
+            $build['styleguide_' . $section . '_' . $component_id] = [
+                'variables' => []
+            ];
+        }
+    }
+    return $build;
+}

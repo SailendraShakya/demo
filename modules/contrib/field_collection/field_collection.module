@@ -18,16 +18,17 @@ use Drupal\Core\Render\Element;
 /**
  * Implements hook_help().
  */
-function field_collection_help($route_name, RouteMatchInterface $route_match) {
-  switch ($route_name) {
-    case 'help.page.field_collection':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('The field collection module provides a field, to which any number of fields can be attached. See the <a href="@field-help">Field module help page</a> for more information about fields.', [
-        '@field-help' => Url::fromRoute('help.page', ['name' => 'field']),
-      ]) . '</p>';
-      return $output;
-  }
+function field_collection_help($route_name, RouteMatchInterface $route_match)
+{
+    switch ($route_name) {
+        case 'help.page.field_collection':
+            $output = '';
+            $output .= '<h3>' . t('About') . '</h3>';
+            $output .= '<p>' . t('The field collection module provides a field, to which any number of fields can be attached. See the <a href="@field-help">Field module help page</a> for more information about fields.', [
+                    '@field-help' => Url::fromRoute('help.page', ['name' => 'field']),
+                ]) . '</p>';
+            return $output;
+    }
 }
 
 /**
@@ -35,35 +36,36 @@ function field_collection_help($route_name, RouteMatchInterface $route_match) {
  *
  * Create a field collection bundle when a new field collection field is made.
  */
-function field_collection_field_storage_config_insert(FieldStorageConfigInterface $field) {
-  if ($field->getType() == 'field_collection') {
-    $field_collection_exists = \Drupal::entityQuery('field_collection')
-      ->condition('id', $field->getName())
-      ->count()
-      ->execute();
-    if (!$field_collection_exists) {
-      $field_collection = new FieldCollection();
-      $field_collection->set('label', $field->getName());
-      $field_collection->set('id', $field->getName());
-      $field_collection->enforceIsNew();
-      $field_collection->save();
+function field_collection_field_storage_config_insert(FieldStorageConfigInterface $field)
+{
+    if ($field->getType() == 'field_collection') {
+        $field_collection_exists = \Drupal::entityQuery('field_collection')
+            ->condition('id', $field->getName())
+            ->count()
+            ->execute();
+        if (!$field_collection_exists) {
+            $field_collection = new FieldCollection();
+            $field_collection->set('label', $field->getName());
+            $field_collection->set('id', $field->getName());
+            $field_collection->enforceIsNew();
+            $field_collection->save();
+        }
+
+        // TODO: entity_invoke_bundle_hook in post save like in nodeType ?
+
+        // Clear caches.
+        //entity_info_cache_clear();
+
+        // Do not directly issue menu rebuilds here to avoid potentially multiple
+        // rebuilds. Instead, let menu_get_item() issue the rebuild on the next
+        // request.
+        //
+        // TODO: Figure out whether this is still needed and replace it with the
+        // new API if it is.
+        // https://drupal.org/node/2183531
+        //
+        // variable_set('menu_rebuild_needed', TRUE);
     }
-
-    // TODO: entity_invoke_bundle_hook in post save like in nodeType ?
-
-    // Clear caches.
-    //entity_info_cache_clear();
-
-    // Do not directly issue menu rebuilds here to avoid potentially multiple
-    // rebuilds. Instead, let menu_get_item() issue the rebuild on the next
-    // request.
-    //
-    // TODO: Figure out whether this is still needed and replace it with the
-    // new API if it is.
-    // https://drupal.org/node/2183531
-    //
-    // variable_set('menu_rebuild_needed', TRUE);
-  }
 }
 
 /**
@@ -72,11 +74,12 @@ function field_collection_field_storage_config_insert(FieldStorageConfigInterfac
  * Delete the field collection bundle when it's corrosponding field no longer
  * exists in any bundle.
  */
-function field_collection_field_storage_config_delete(EntityInterface $field) {
-  if ($field->getType() == 'field_collection') {
-    $field_collection_bundle = FieldCollection::load($field->getName());
-    $field_collection_bundle->delete();
-  }
+function field_collection_field_storage_config_delete(EntityInterface $field)
+{
+    if ($field->getType() == 'field_collection') {
+        $field_collection_bundle = FieldCollection::load($field->getName());
+        $field_collection_bundle->delete();
+    }
 }
 
 /**
@@ -89,14 +92,15 @@ function field_collection_field_storage_config_delete(EntityInterface $field) {
  * too much data.  See @link field_purge Field API bulk data deletion @endlink
  * for inspiration.
  */
-function field_collection_field_config_predelete(EntityInterface $field) {
-  if ($field->getType() == 'field_collection') {
-    // @todo This is not how you interpolate variables into a db_query().
-    $field_collection_item_ids = \Drupal::database()->query('SELECT `entity_id` FROM {' . $field->getTargetEntityTypeId() . '__' . $field->getName() . '} WHERE `bundle` = \'' . $field->getTargetBundle() . '\' ')->fetchCol();
-    $controller = \Drupal::entityTypeManager()->getStorage('field_collection_item');
-    $entities = $controller->loadMultiple($field_collection_item_ids);
-    $controller->delete($entities);
-  }
+function field_collection_field_config_predelete(EntityInterface $field)
+{
+    if ($field->getType() == 'field_collection') {
+        // @todo This is not how you interpolate variables into a db_query().
+        $field_collection_item_ids = \Drupal::database()->query('SELECT `entity_id` FROM {' . $field->getTargetEntityTypeId() . '__' . $field->getName() . '} WHERE `bundle` = \'' . $field->getTargetBundle() . '\' ')->fetchCol();
+        $controller = \Drupal::entityTypeManager()->getStorage('field_collection_item');
+        $entities = $controller->loadMultiple($field_collection_item_ids);
+        $controller->delete($entities);
+    }
 }
 
 /**
@@ -104,12 +108,14 @@ function field_collection_field_config_predelete(EntityInterface $field) {
  *
  * Remove the save button since there are no options to save.
  */
-function field_collection_form_field_collection_edit_form_alter(&$form, FormStateInterface $form_state) {
-  unset($form['actions']);
+function field_collection_form_field_collection_edit_form_alter(&$form, FormStateInterface $form_state)
+{
+    unset($form['actions']);
 }
 
-function field_collection_page_attachments(array &$attachments) {
-  $s = \Drupal::service('user.permissions');
+function field_collection_page_attachments(array &$attachments)
+{
+    $s = \Drupal::service('user.permissions');
 }
 
 /**
@@ -117,15 +123,16 @@ function field_collection_page_attachments(array &$attachments) {
  *
  * Remove default value from field collection field settings.
  */
-function field_collection_form_field_config_edit_form_alter(&$form, FormStateInterface $form_state) {
-  if ($form_state->getFormObject()->getEntity()->getType() == 'field_collection') {
-    unset($form['default_value']['widget']);
-    $form['default_value']['#description'] = t('To specify a default value, configure it via the regular default value setting of each field that is part of the field collection. To do so, go to the <a href=":url/fields">manage fields</a> screen of the field collection.', array(
-      ':url' => Url::fromRoute('entity.field_collection.edit_form', array(
-        'field_collection' => $form_state->getFormObject()->getEntity()->getName()
-      ))->setAbsolute()->toString(),
-    ));
-  }
+function field_collection_form_field_config_edit_form_alter(&$form, FormStateInterface $form_state)
+{
+    if ($form_state->getFormObject()->getEntity()->getType() == 'field_collection') {
+        unset($form['default_value']['widget']);
+        $form['default_value']['#description'] = t('To specify a default value, configure it via the regular default value setting of each field that is part of the field collection. To do so, go to the <a href=":url/fields">manage fields</a> screen of the field collection.', array(
+            ':url' => Url::fromRoute('entity.field_collection.edit_form', array(
+                'field_collection' => $form_state->getFormObject()->getEntity()->getName()
+            ))->setAbsolute()->toString(),
+        ));
+    }
 }
 
 /**
@@ -136,11 +143,12 @@ function field_collection_form_field_config_edit_form_alter(&$form, FormStateInt
  * TODO: Replace this and references to it with whatever that function was
  * replaced with in Drupal 8.
  */
-function _field_collection_sort_items_helper($a, $b) {
-  $a_weight = (is_array($a) ? $a['_weight'] : 0);
-  $b_weight = (is_array($b) ? $b['_weight'] : 0);
+function _field_collection_sort_items_helper($a, $b)
+{
+    $a_weight = (is_array($a) ? $a['_weight'] : 0);
+    $b_weight = (is_array($b) ? $b['_weight'] : 0);
 
-  return $a_weight - $b_weight;
+    return $a_weight - $b_weight;
 }
 
 /**
@@ -148,43 +156,46 @@ function _field_collection_sort_items_helper($a, $b) {
  *
  * TODO: Find the standard way to do this and replace calls to it.
  */
-function _field_collection_field_item_list_full(FieldItemListInterface $field_list) {
-  $cardinality = $field_list->getFieldDefinition()
-    ->getFieldStorageDefinition()
-    ->getCardinality();
+function _field_collection_field_item_list_full(FieldItemListInterface $field_list)
+{
+    $cardinality = $field_list->getFieldDefinition()
+        ->getFieldStorageDefinition()
+        ->getCardinality();
 
-  $total = $field_list->count();
+    $total = $field_list->count();
 
-  return ($cardinality != FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED && $cardinality <= $total);
+    return ($cardinality != FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED && $cardinality <= $total);
 }
 
 /**
  * Implements hook_theme to define field_collection templates
  */
-function field_collection_theme() {
-  return array(
-    'field_collection_item' => array(
-      'render element' => 'item',
-    ),
-  );
+function field_collection_theme()
+{
+    return array(
+        'field_collection_item' => array(
+            'render element' => 'item',
+        ),
+    );
 }
 
 /**
  * Implements hook_theme_suggestions_HOOK().
  */
-function field_collection_theme_suggestions_field_collection_item(array $variables) {
-  $suggestions = array();
-  $item = $variables['item']['#field_collection_item'];
+function field_collection_theme_suggestions_field_collection_item(array $variables)
+{
+    $suggestions = array();
+    $item = $variables['item']['#field_collection_item'];
 
-  $sanitized_view_mode = strtr($variables['item']['#view_mode'], '.', '_');
+    $sanitized_view_mode = strtr($variables['item']['#view_mode'], '.', '_');
 
-  $suggestions[] = 'field_collection_item__' . $sanitized_view_mode;
-  $suggestions[] = 'field_collection_item__' . $item->bundle();
-  $suggestions[] = 'field_collection_item__' . $item->bundle() . '__' . $sanitized_view_mode;
-  $suggestions[] = 'field_collection_item__' . $item->id();
-  $suggestions[] = 'field_collection_item__' . $item->id() . '__' . $sanitized_view_mode;
+    $suggestions[] = 'field_collection_item__' . $sanitized_view_mode;
+    $suggestions[] = 'field_collection_item__' . $item->bundle();
+    $suggestions[] = 'field_collection_item__' . $item->bundle() . '__' . $sanitized_view_mode;
+    $suggestions[] = 'field_collection_item__' . $item->id();
+    $suggestions[] = 'field_collection_item__' . $item->id() . '__' . $sanitized_view_mode;
 
-  return $suggestions;
+    return $suggestions;
 }
 
 /**
@@ -196,18 +207,19 @@ function field_collection_theme_suggestions_field_collection_item(array $variabl
  * An associative array containing:
  *   - item: An array of information about the field_collection_item to display.
  */
-function template_preprocess_field_collection_item(&$variables) {
-  $item = $variables['item']['#field_collection_item'];
+function template_preprocess_field_collection_item(&$variables)
+{
+    $item = $variables['item']['#field_collection_item'];
 
-  // Supply useful metadata for the item.
-  $variables['field_collection_item'] = [
-    'name' => $item->bundle(),
-    'view_mode' => $variables['item']['#view_mode']
-  ];
+    // Supply useful metadata for the item.
+    $variables['field_collection_item'] = [
+        'name' => $item->bundle(),
+        'view_mode' => $variables['item']['#view_mode']
+    ];
 
-  // Provide field_collection_item $content variable for the template.
-  $variables += array('content' => array());
-  foreach (Element::children($variables['item']) as $key) {
-    $variables['content'][$key] = $variables['item'][$key];
-  }
+    // Provide field_collection_item $content variable for the template.
+    $variables += array('content' => array());
+    foreach (Element::children($variables['item']) as $key) {
+        $variables['content'][$key] = $variables['item'][$key];
+    }
 }

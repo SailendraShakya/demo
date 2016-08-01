@@ -7,4 +7,6 @@
 namespace Drupal\ctools;
 
 
-class ContextNotFoundException extends \Exception {}
+class ContextNotFoundException extends \Exception
+{
+}

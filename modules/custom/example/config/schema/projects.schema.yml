@@ -1,0 +1,21 @@
+example.projects.*:
+  type: config_entity
+  label: 'Projects config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    project_name:
+      type: string
+      label: 'Project Name'
+    duration:
+      type: string
+      label: 'Duration'
+    user_id:
+      type: string
+      label: 'User ID'
+    uuid:
+      type: string

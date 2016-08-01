@@ -1,0 +1,54 @@
+<h1>{{ lorem(1, 'sentences') }}</h1>
+<h2>{{ lorem(1, 'sentences') }}</h2>
+<h3>{{ lorem(1, 'sentences') }}</h3>
+<h4>{{ lorem(1, 'sentences') }}</h4>
+<h5>{{ lorem(1, 'sentences') }}</h5>
+<h6>{{ lorem(1, 'sentences') }}</h6>
+<p class="lede">{{ lorem(1, 'sentences') }}</p>
+<p>{{ lorem(1, 'sentences') }}</p>
+<p>{{ lorem(4, 'words') }} <strong>{{ lorem(4, 'words') }}</strong> {{ lorem(4, 'words') }}.</p>
+<p>{{ lorem(4, 'words') }} <em>{{ lorem(4, 'words') }}</em> {{ lorem(4, 'words') }}.</p>
+<p>{{ lorem(4, 'words') }} <a href="#">{{ lorem(4, 'words') }}</a> {{ lorem(4, 'words') }}.</p>
+<p>{{ lorem(4, 'words') }} <code>{{ lorem(4, 'words') }}</code> {{ lorem(4, 'words') }}.</p>
+<ul>
+    <li>{{ lorem(1, 'sentences') }}</li>
+    <ul>
+        <li>{{ lorem(1, 'sentences') }}</li>
+    </ul>
+    <li>{{ lorem(1, 'sentences') }}</li>
+    <li>{{ lorem(1, 'sentences') }}</li>
+</ul>
+<ol>
+    <li>{{ lorem(1, 'sentences') }}</li>
+    <ul>
+        <li>{{ lorem(1, 'sentences') }}</li>
+    </ul>
+    <li>{{ lorem(1, 'sentences') }}</li>
+    <li>{{ lorem(1, 'sentences') }}</li>
+</ol>
+<dl>
+    <dt>{{ lorem(1, 'sentences') }}</dt>
+    <dd>{{ lorem(1, 'sentences') }}</dd>
+    <dt>{{ lorem(1, 'sentences') }}</dt>
+    <dd>{{ lorem(1, 'sentences') }}</dd>
+</dl>
+<blockquote>
+    {{ lorem(2, 'sentences', 'p') | raw }}
+</blockquote>
+<address>
+    123 Fake St<br>
+    Faketown 1234<br>
+    Fakecountry
+</address>
+<pre>
+function once(fn) {
+  var returnValue, called = false;
+  return function () {
+      if (!called) {
+          called = true;
+          returnValue = fn.apply(this, arguments);
+      }
+      return returnValue;
+  };
+}
+</pre>

@@ -1,0 +1,9 @@
+global-styling:
+  version: 1.x
+  css:
+    theme:
+      https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css: { type: external}
+      css/layout.css: {}
+      css/style.css: {}
+      css/colors.css: {}
+      css/print.css: { media: print }

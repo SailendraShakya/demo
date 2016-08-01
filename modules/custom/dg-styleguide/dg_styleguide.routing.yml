@@ -1,0 +1,7 @@
+dg_styleguide.section:
+  path: '/styleguide/{section}'
+  defaults:
+    _controller: '\Drupal\dg_styleguide\Controller\StyleguideController::section'
+    title: 'Styleguide'
+  requirements:
+    _permission: 'access content'

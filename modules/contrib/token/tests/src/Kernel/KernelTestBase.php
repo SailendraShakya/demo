@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\Tests\token\Kernel\TokenKernelTestBase.
+ */
+
 namespace Drupal\Tests\token\Kernel;
 
 use Drupal\KernelTests\KernelTestBase as BaseKernelTestBase;

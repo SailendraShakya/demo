@@ -1,0 +1,71 @@
+.footer {
+	background: $alternate-color;
+	color: $base-color;
+	padding: 25px 0;
+}
+.dg-social-platforms-block {
+	width: 30%;
+	float: left;
+
+	li a {
+		visibility: hidden;
+		float: left;
+		position: relative;
+		line-height: 25px;
+		margin-right: 10px;
+		color: $base-color;
+		width: 30px;
+		height: 30px;
+		overflow: hidden;
+	}
+	.dg-social-platforms-block__item--facebook a {
+		&:after {
+			content: '\f09a';
+			font-family: FontAwesome;
+			color: $black;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			visibility: visible;
+			width: 30px;
+			height: 30px;
+			background: #fff;
+			line-height: 30px;
+			text-align: center;
+			border-radius: 50%;
+		}
+		&:hover {
+			&:after {
+				background: $primar-color;
+				color: $base-color;
+			}
+		}
+	}
+	.dg-social-platforms-block__item--pinterest a {
+		&:after {
+			content: '\f231';
+			font-family: FontAwesome;
+			color: $black;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			visibility: visible;
+			width: 30px;
+			height: 30px;
+			background: #fff;
+			line-height: 30px;
+			text-align: center;
+			border-radius: 50%;
+		}
+		&:hover {
+			&:after {
+				background: $primar-color;
+				color: $base-color;
+			}
+		}
+	}
+}
+#block-copyright {
+	float: right;
+	width: 30%;
+}

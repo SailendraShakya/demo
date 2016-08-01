@@ -21,10 +21,11 @@
  * @param \Drupal\field_collection\Entity\FieldCollectionItem $item
  *   The field collection we are currently operating on.
  */
-function hook_field_collection_is_empty_alter(&$is_empty, \Drupal\field_collection\Entity\FieldCollectionItem $item) {
-  if (isset($item->my_field) && empty($item->my_field)) {
-    $is_empty = TRUE;
-  }
+function hook_field_collection_is_empty_alter(&$is_empty, \Drupal\field_collection\Entity\FieldCollectionItem $item)
+{
+    if (isset($item->my_field) && empty($item->my_field)) {
+        $is_empty = TRUE;
+    }
 }
 
 /**

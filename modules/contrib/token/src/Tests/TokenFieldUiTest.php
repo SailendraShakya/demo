@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\token\Tests\TokenFieldUiTest.
+ */
+
 namespace Drupal\token\Tests;
 
 use Drupal\node\Entity\NodeType;

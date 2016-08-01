@@ -19,15 +19,10 @@ function token_requirements($phase = 'runtime') {
       if (!empty($problem['problems'])) {
         $problems = array_unique($problem['problems']);
         $problems = array_map('\Drupal\Component\Utility\SafeMarkup::checkPlain', $problems);
-
-        $build = [
-          '#theme' => 'item_list',
-          '#items' => $problems,
-        ];
-
         $requirements['token-' . $problem_key] = array(
           'title' => $problem['label'],
-          'value' => \Drupal::service('renderer')->renderPlain($build),
+          // @todo Use render arrays. See https://drupal.org/node/2195739
+          'value' => \Drupal::theme()->render('item_list', array('items' => $problems)),
           'severity' => $problem['severity'],
         );
       }
@@ -42,14 +37,14 @@ function token_requirements($phase = 'runtime') {
  */
 function token_install() {
   // Create a token view mode for each entity type.
-  $info = \Drupal::entityTypeManager()->getDefinitions();
+  $info = \Drupal::entityManager()->getDefinitions();
   foreach ($info as $entity_type => $entity_type_info) {
     // We're only interested in entity types with a view builder.
     if (!$entity_type_info->getViewBuilderClass()) {
       continue;
     }
     // Try to find a token view mode for that entity type.
-    $storage = \Drupal::entityTypeManager()->getStorage('entity_view_mode');
+    $storage = \Drupal::entityManager()->getStorage('entity_view_mode');
     // Add a token view mode if it does not already exist.
     if (!$storage->load("$entity_type.token")) {
       $storage->create(array(

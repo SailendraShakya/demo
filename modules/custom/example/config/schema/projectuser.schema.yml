@@ -1,0 +1,21 @@
+example.projectuser.*:
+  type: config_entity
+  label: 'User config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    username:
+      type: string
+      label: 'User Name'
+    email:
+      type: string
+      label: 'Email'
+    phone_number:
+      type: string
+      label: 'PHone Number'
+    description:
+      type: string
+      label: 'Description'
+    uuid:
+      type: string

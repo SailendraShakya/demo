@@ -12,6 +12,7 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
 /**
  * Provides an interface defining a field collection entity.
  */
-interface FieldCollectionInterface extends ConfigEntityInterface {
+interface FieldCollectionInterface extends ConfigEntityInterface
+{
 
 }

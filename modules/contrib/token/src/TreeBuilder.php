@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\token\TreeBuilder.
+ */
+
 namespace Drupal\token;
 
 use Drupal\Core\Cache\Cache;
@@ -52,7 +57,6 @@ class TreeBuilder implements TreeBuilderInterface {
       'global_types' => TRUE,
       'click_insert' => TRUE,
       'show_restricted' => FALSE,
-      'show_nested' => FALSE,
       'recursion_limit' => 3,
     ];
 
@@ -76,7 +80,6 @@ class TreeBuilder implements TreeBuilderInterface {
     $tree_options = [
       'flat' => TRUE,
       'restricted' => $options['show_restricted'],
-      'nested' => $options['show_nested'],
       'depth' => $options['recursion_limit'],
     ];
 
@@ -94,7 +97,6 @@ class TreeBuilder implements TreeBuilderInterface {
       '#type' => 'token_tree_table',
       '#token_tree' => $token_tree,
       '#show_restricted' => $options['show_restricted'],
-      '#show_nested' => $options['show_nested'],
       '#click_insert' => $options['click_insert'],
       '#columns' => ['name', 'token', 'description'],
       '#empty' => t('No tokens available'),

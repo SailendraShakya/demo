@@ -1,0 +1,17 @@
+{% set typeSets = [
+'bondi',
+'manly',
+'bronte',
+'maroubra',
+'deewhy',
+'avalon',
+'clovelly',
+'coogee',
+'palm',
+'narrabeen'
+] %}
+<ul class="type-set">
+    {% for typeSet in typeSets %}
+        <li class="type-set__item type-set--{{ typeSet }}">{{ lorem(1, 'sentences') }}</li>
+    {% endfor %}
+</ul>

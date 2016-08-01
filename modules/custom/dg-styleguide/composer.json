@@ -1,0 +1,8 @@
+{
+  "name": "drupal/dg_styleguide",
+  "description": "Overview of frontend components.",
+  "type": "drupal-module",
+  "require": {
+    "joshtronic/php-loremipsum": "^1.0"
+  }
+}

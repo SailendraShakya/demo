@@ -1,0 +1,56 @@
+h1.project-title {
+	font-size: 42px;
+	margin-bottom: 40px;
+	color: #272e40;
+	position: relative;
+
+	&:after {
+		content: '';
+		height: 3px;
+		background: #0991b8;
+		width: 70px;
+		position: absolute;
+		bottom: -20px;
+		left: 0;
+	}
+}
+.project-list>li {
+	padding: 10px 0;
+	float: left;
+	width: 100%;
+
+	&:nth-child(odd) {
+		background: $base-color;
+	}
+	&:first-child {
+		background: $alternate-color;
+		color: $base-color;
+	}
+	ul {
+		li {
+			padding: 0;
+		}
+		li.serial {
+			width: 7%;
+			float: left;
+			text-align: center;
+			padding-left: 10px;
+		}
+		li.plable {
+			width: 28%;
+			float: left;
+		}
+		li.pname {
+			width: 30%;
+			float: left;
+		}
+		li.pduration {
+			width: 15%;
+			float: left;
+		}
+		li.pusername {
+			width: 20%;
+			float: left;
+		}
+	}
+}

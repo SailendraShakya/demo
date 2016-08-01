@@ -1,7 +1,12 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\token\Tests\TokenMenuTest.
+ */
 namespace Drupal\token\Tests;
 
+use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
 use Drupal\node\Entity\Node;
 
 /**
@@ -19,8 +24,6 @@ class TokenMenuTest extends TokenTestBase {
   public static $modules = ['menu_ui', 'node'];
 
   function testMenuTokens() {
-    // Make sure we have a body field on the node type.
-    $this->drupalCreateContentType(['type' => 'page']);
     // Add a menu.
     $menu = entity_create('menu', array(
       'id' => 'main-menu',
@@ -120,112 +123,5 @@ class TokenMenuTest extends TokenTestBase {
     // Regression test for http://drupal.org/node/1317926 to ensure the
     // original node object is not changed when calling menu_node_prepare().
     $this->assertTrue(!isset($loaded_node->menu), t('The $node->menu property was not modified during token replacement.'), 'Regression');
-
-    // Now add a node with a menu-link from the UI and ensure it works.
-    $this->drupalLogin($this->drupalCreateUser([
-      'create page content',
-      'edit any page content',
-      'administer menu',
-      'administer nodes',
-      'administer content types',
-      'access administration pages',
-    ]));
-    // Setup node type menu options.
-    $edit = array(
-      'menu_options[main-menu]' => 1,
-      'menu_options[main]' => 1,
-      'menu_parent' => 'main-menu:',
-    );
-    $this->drupalPostForm('admin/structure/types/manage/page', $edit, t('Save content type'));
-
-    // Use a menu-link token in the body.
-    $this->drupalGet('node/add/page');
-    $this->drupalPostForm(NULL, [
-      // This should get replaced on save.
-      // @see token_module_test_node_presave()
-      'title[0][value]' => 'Node menu title test',
-      'body[0][value]' => 'This is a [node:menu-link:title] token to the menu link title',
-      'menu[enabled]' => 1,
-      'menu[title]' => 'Test preview',
-    ], t('Save and publish'));
-    $node = $this->drupalGetNodeByTitle('Node menu title test');
-    $this->assertEqual('This is a Test preview token to the menu link title', $node->body->value);
-
-    // Now test a parent link and token.
-    $this->drupalGet('node/add/page');
-    // Make sure that the previous node save didn't result in two menu-links
-    // being created by the computed menu-link ER field.
-    // @see token_entity_base_field_info()
-    // @see token_node_menu_link_submit()
-    $selects = $this->cssSelect('select[name="menu[menu_parent]"]');
-    $select = reset($selects);
-    $options = $this->getAllOptions($select);
-    // Filter to items with title containing 'Test preview'.
-    $options = array_filter($options, function(\SimpleXMLElement $item) {
-      return strpos((string) $item[0], 'Test preview') !== FALSE;
-    });
-    $this->assertEqual(1, count($options));
-    $this->drupalPostForm(NULL, [
-      'title[0][value]' => 'Node menu title parent path test',
-      'body[0][value]' => 'This is a [node:menu-link:parent:url:path] token to the menu link parent',
-      'menu[enabled]' => 1,
-      'menu[title]' => 'Child link',
-      'menu[menu_parent]' => 'main-menu:' .  $parent_link->getPluginId(),
-    ], t('Save and publish'));
-    $node = $this->drupalGetNodeByTitle('Node menu title parent path test');
-    $this->assertEqual('This is a /admin/config token to the menu link parent', $node->body->value);
-
-    // Now edit the node and update the parent and title.
-    $this->drupalPostForm('node/' . $node->id() . '/edit', [
-      'menu[menu_parent]' => 'main-menu:' .  $node_link->getPluginId(),
-      'title[0][value]' => 'Node menu title edit parent path test',
-      'body[0][value]' => 'This is a [node:menu-link:parent:url:path] token to the menu link parent',
-    ], t('Save and keep published'));
-    $node = $this->drupalGetNodeByTitle('Node menu title edit parent path test', TRUE);
-    $this->assertEqual(sprintf('This is a /node/%d token to the menu link parent', $loaded_node->id()), $node->body->value);
-
-    // Make sure that the previous node edit didn't result in two menu-links
-    // being created by the computed menu-link ER field.
-    // @see token_entity_base_field_info()
-    // @see token_node_menu_link_submit()
-    $this->drupalGet('node/add/page');
-    $selects = $this->cssSelect('select[name="menu[menu_parent]"]');
-    $select = reset($selects);
-    $options = $this->getAllOptions($select);
-    // Filter to items with title containing 'Test preview'.
-    $options = array_filter($options, function(\SimpleXMLElement $item) {
-      return strpos((string) $item[0], 'Child link') !== FALSE;
-    });
-    $this->assertEqual(1, count($options));
-
-    // Now add a new node with no menu.
-    $this->drupalGet('node/add/page');
-    $this->drupalPostForm(NULL, [
-      'title[0][value]' => 'Node menu adding menu later test',
-      'body[0][value]' => 'Going to add a menu link on edit',
-      'menu[enabled]' => 0,
-    ], t('Save and publish'));
-    $node = $this->drupalGetNodeByTitle('Node menu adding menu later test');
-    // Now edit it and add a menu item.
-    $this->drupalGet('node/' . $node->id() . '/edit');
-    $this->drupalPostForm(NULL, [
-      'title[0][value]' => 'Node menu adding menu later test',
-      'body[0][value]' => 'This is a [node:menu-link:parent:url:path] token to the menu link parent',
-      'menu[enabled]' => 1,
-      'menu[title]' => 'Child link',
-      'menu[menu_parent]' => 'main-menu:' .  $parent_link->getPluginId(),
-    ], t('Save and keep published'));
-    $node = $this->drupalGetNodeByTitle('Node menu adding menu later test', TRUE);
-    $this->assertEqual('This is a /admin/config token to the menu link parent', $node->body->value);
-    // And make sure the menu link exists with the right URI.
-    $link = menu_ui_get_menu_link_defaults($node);
-    $this->assertTrue(!empty($link['entity_id']));
-    $query = \Drupal::entityQuery('menu_link_content')
-      ->condition('link.uri', 'entity:node/' . $node->id())
-      ->sort('id', 'ASC')
-      ->range(0, 1);
-    $result = $query->execute();
-    $this->assertTrue($result);
   }
-
 }

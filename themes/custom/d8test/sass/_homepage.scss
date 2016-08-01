@@ -1,0 +1,296 @@
+.hero {
+	background: $base-gray;
+	padding: 100px 0;
+	text-align: center;
+
+	&:after {
+		clear: both;
+		display: block;
+		content: '';
+	}
+	h2 {
+		font-size: 4.5em;
+		color: $primar-color;
+		line-height: 1.25;
+		font-weight: normal;
+		padding-bottom: 20px;
+
+		@include phones {
+			font-size: 2.5em;
+		}
+	}
+	p {
+		font-size: 1.375em;
+		line-height: 1.45455;
+		width: 70%;
+		margin: 0 auto;
+
+		@include phones {
+			width: 100%;
+		}
+	}
+}
+
+/* Company SErvices*/
+.company-service {
+	text-align: center;
+	color: $base-color;
+
+	&:after {
+		clear: both;
+		display: block;
+		content: '';
+	}
+	.ds-1col {
+		width: 50%;
+		float: left;
+		background: $primar-color;
+
+		&:nth-child(2) {
+			background: url('/d8test/sites/default/files/2016-07/city-b2.jpg') no-repeat;
+		}
+		.class_region_1 {
+			width: 50%;
+			margin: 0 auto;
+			padding: 80px 0;
+
+			@include tablets {
+				width: 90%;
+			}
+			a {
+				padding: 10px 23px;
+				border: 2px solid $base-color;
+				border-radius: 40px;
+				display: inline-block;
+				margin-top: 20px;
+				color: $base-color;
+				-webkit-transition: background 0.5s ease;
+				transition: background 0.5s ease;
+
+				&:hover {
+					text-decoration: none;
+					background: $base-color;
+					color: $black;
+				}
+			}
+		}
+		h2 {
+			font-size: $heading-fn-size;
+			line-height: 1.25;
+			font-weight: normal;
+			padding-bottom: 20px;
+		}
+		@include tablets {
+			width: 100%;
+		}
+	}
+}
+#block-d8test-companymission {
+	width: 80%;
+	text-align: left;
+	padding: 80px 0;
+	margin: 0 auto;
+	position: relative;
+
+	&:after {
+		width: 50%;
+		height: 1px;
+		background: $base-gray;
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		transform: translateX(-50%);
+		content: ''
+	}
+	h2 {
+		font-size: $heading-fn-size + 6;
+		margin-bottom: 20px;
+		width: 30%;
+		float: left;
+
+		@include tablets {
+			width: 35%;
+		}
+		@include phones {
+			width: 100%;
+			margin-bottom: 20px;
+			text-align: center;
+		}
+	}
+	.class_region_1 div {
+		width: 65%;
+		float: right;
+		font-size: $content-fn-size + 2;
+		line-height: 26px;
+
+		@include phones {
+			width: 100%;
+			text-align: center;
+		}
+	}
+}
+.enquire-form {
+	background-color: $base-gray;
+	padding: 80px 0;
+	text-align: center;
+
+	h2 {
+		font-size: $heading-fn-size + 6;
+		margin-bottom: 40px;
+		color: $alternate-color;
+		position: relative;
+
+		&:after {
+			content: '';
+			height: 3px;
+			background: $primar-color;
+			width: 150px;
+			position: absolute;
+			bottom: -20px;
+			left: 50%;
+			-webkit-transform: translateX(-50%);
+			-ms-transform: translateX(-50%);
+			transform: translateX(-50%);
+		}
+	}
+	form.contact-form {
+		width: 70%;
+		margin: 30px auto 0;
+		position: relative;
+
+		@include tablets {
+			width: 100%;
+		}
+		label {
+			display: block;
+			text-align: left;
+			font-weight: bold;
+			text-transform: uppercase;
+			padding-bottom: 10px;
+			font-family: $content-font;
+			font-size: 16px;
+		}
+		.field--name-field-name-enquiry, .field--name-field-email-enquiry, .field--name-field-phone-enquiry {
+			width: 40%;
+			float: left;
+			clear: both;
+
+			@include phones {
+				width: 100%;
+			}
+			input {
+				width: 100%;
+				height: 50px;
+				background-color: $base-color;
+				border: 1px solid LightGray;
+				margin-bottom: 20px;
+				padding: 0 15px;
+				box-sizing: border-box;
+
+				&:focus {
+					border-color: $primar-color;
+				}
+			}
+		}
+		.field--name-field-message-enquiry {
+			float: right;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 55%;
+
+			@include phones {
+				width: 100%;
+				position: relative;
+			}
+			textarea {
+				width: 100%;
+				height: 242px;
+				background-color: $base-color;
+				border: 1px solid LightGray;
+				padding: 15px;
+				box-sizing: border-box;
+
+				&:focus {
+					border-color: $primar-color;
+				}
+			}
+		}
+		.form-actions {
+			display: inline-block;
+			width: 100%;
+			text-align: right;
+
+			.button {
+				padding: 15px 25px;
+				border-radius: 40px;
+				display: inline-block;
+				margin-top: 20px;
+				color: $base-color;
+				background: $primar-color;
+				border: none;
+				-webkit-transition: background 0.5s ease;
+				transition: background 0.5s ease;
+
+				&:hover {
+					text-decoration: none;
+					background: $alternate-color;
+					color: $base-color;
+				}
+			}
+		}
+	}
+}
+.views-element-container {
+	padding: 50px 0;
+
+	.views-row {
+		float: left;
+		padding: 0 20px;
+		width: 50%;
+
+		@include tablets {
+			width: 100%;
+		}
+		article {
+			padding: 30px 0;
+		}
+		h2 {
+			font-size: $heading-fn-size - 15;
+			margin-bottom: 15px;
+		}
+		footer {
+			text-transform: uppercase;
+			padding: 10px 0;
+
+			article {
+				display: none;
+			}
+		}
+		.node-readmore {
+			a {
+				padding: 15px 25px;
+				border-radius: 40px;
+				display: inline-block;
+				margin-top: 20px;
+				color: $primar-color;
+				border: 2px solid $primar-color;
+				-webkit-transition: background 0.5s ease;
+				transition: background 0.5s ease;
+
+				&:hover {
+					text-decoration: none;
+					background: $primar-color;
+					color: $base-color;
+				}
+			}
+		}
+	}
+}
+
+/* blog */
+.comment-forbidden, .feed-icon {
+	display: none;
+}

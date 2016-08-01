@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\token\Token.
+ */
+
 namespace Drupal\token;
 
 use Drupal\Core\Utility\Token as TokenBase;

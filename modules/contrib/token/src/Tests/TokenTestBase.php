@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\token\Tests\TokenTestBase.
+ */
 namespace Drupal\token\Tests;
 
 use Drupal\simpletest\WebTestBase;

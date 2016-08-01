@@ -1,0 +1,15 @@
+/*Case note*/
+.case-note {
+	.views-row {
+		width: 100%;
+		background: $base-color;
+		margin-bottom: 20px;
+		line-height: 23px;
+
+		footer {
+			article {
+				display: none;
+			}
+		}
+	}
+}

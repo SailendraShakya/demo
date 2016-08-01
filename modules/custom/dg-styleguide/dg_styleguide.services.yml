@@ -1,0 +1,13 @@
+services:
+  dg_styleguide.twig_lorem:
+    class: Drupal\dg_styleguide\TwigLorem
+    arguments: []
+    tags:
+      - { name: twig.extension }
+  dg_styleguide.twig_styleguide_render:
+    class: Drupal\dg_styleguide\TwigStyleguideRender
+    arguments: []
+    tags:
+      - { name: twig.extension }
+  dg_styleguide.lorem:
+    class: \joshtronic\LoremIpsum

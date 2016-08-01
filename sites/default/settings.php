@@ -308,7 +308,7 @@ $settings['hash_salt'] = 'CodFimLlHIrdw5-4xhREulgyy1fvdlf3TxZ3YmYp-RSt63zFtQ6rcD
  * After finishing the upgrade, be sure to open this file again and change the
  * TRUE back to a FALSE!
  */
-$settings['update_free_access'] = FALSE;
+$settings['update_free_access'] = TRUE;
 
 /**
  * External access proxy settings:
@@ -714,11 +714,11 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  *
  * Keep this code block at the end of this file to take full effect.
  */
-# if (file_exists(__DIR__ . '/settings.local.php')) {
-#   include __DIR__ . '/settings.local.php';
-# }
+// if (file_exists(__DIR__ . '/settings.local.php')) {
+//   include __DIR__ . '/settings.local.php';
+// }
 $databases['default']['default'] = array (
-  'database' => 'd8test',
+  'database' => 'demo',
   'username' => 'root',
   'password' => 'root',
   'prefix' => '',

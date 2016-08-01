@@ -1,0 +1,8 @@
+example.project_controller_project_list:
+  path: '/project/list'
+  defaults:
+    _controller: '\Drupal\example\Controller\ProjectController::project_list'
+    _title: 'Project List'
+  requirements:
+    _permission: 'access content'
+

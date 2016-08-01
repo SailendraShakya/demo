@@ -152,9 +152,7 @@ class FieldStorageConfigStorage extends ConfigEntityStorage {
   protected function mapFromStorageRecords(array $records) {
     foreach ($records as &$record) {
       $class = $this->fieldTypeManager->getPluginClass($record['type']);
-      if (!empty($class)) {
-        $record['settings'] = $class::storageSettingsFromConfigData($record['settings']);
-      }
+      $record['settings'] = $class::storageSettingsFromConfigData($record['settings']);
     }
     return parent::mapFromStorageRecords($records);
   }

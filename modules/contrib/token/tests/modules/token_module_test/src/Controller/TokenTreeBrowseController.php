@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\token_module_test\Controller\TokenTreeBrowseController.
+ */
+
 namespace Drupal\token_module_test\Controller;
 
 use Drupal\Core\Controller\ControllerBase;

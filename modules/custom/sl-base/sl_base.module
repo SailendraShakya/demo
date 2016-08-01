@@ -1,0 +1,130 @@
+<?php
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Link;
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_clock_access().
+ *
+ * - Forbid access to 'SystemBlockMenu' instances with no tree from route.
+ *
+ * @param \Drupal\block\Entity\Block $block
+ * @param $operation
+ * @param \Drupal\Core\Session\AccountInterface $account
+ * @return \Drupal\Core\Access\AccessResult
+ */
+function sl_base_block_access(\Drupal\block\Entity\Block $block, $operation, \Drupal\Core\Session\AccountInterface $account)
+{
+    $admin_context = \Drupal::service('router.admin_context');
+    if (!$admin_context->isAdminRoute()) {
+        $plugin = $block->getPlugin();
+        // Forbid access to 'SystemBlockMenu' instances with no tree from route.
+        if ('system_menu_block' == $plugin->getBaseId()) {
+            $config = $plugin->getConfiguration();
+            $menu_name = $plugin->getDerivativeId();
+            $menu_tree = \Drupal::menuTree();
+            $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
+            // Adjust the menu tree parameters based on the block's configuration.
+            $level = $config['level'];
+            $depth = $config['depth'];
+            $parameters->setMinDepth($level);
+            // When the depth is configured to zero, there is no depth limit. When depth
+            // is non-zero, it indicates the number of levels that must be displayed.
+            // Hence this is a relative depth that we must convert to an actual
+            // (absolute) depth, that may never exceed the maximum depth.
+            if ($depth > 0) {
+                $parameters->setMaxDepth(min($level + $depth - 1, $menu_tree->maxDepth()));
+            }
+            $tree = $menu_tree->load($menu_name, $parameters);
+            $manipulators = array(
+                array('callable' => 'menu.default_tree_manipulators:checkAccess'),
+                array('callable' => 'menu.default_tree_manipulators:generateIndexAndSort'),
+            );
+            $tree = $menu_tree->transform($tree, $manipulators);
+            if (!count($tree)) {
+                // Forbid access.
+                return AccessResult::forbidden();
+            }
+        }
+    }
+    return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_system_breadcrumb_alter().
+ *
+ * - Append the current page title to the breadcrumb for non-admin routes.
+ *
+ * @param \Drupal\Core\Breadcrumb\Breadcrumb $breadcrumb
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ * @param array $context
+ */
+function sl_base_system_breadcrumb_alter(\Drupal\Core\Breadcrumb\Breadcrumb &$breadcrumb, \Drupal\Core\Routing\RouteMatchInterface $route_match, array $context)
+{
+    $request = \Drupal::request();
+    $admin_context = \Drupal::service('router.admin_context');
+    $title_resolver = \Drupal::service('title_resolver');
+    if ($breadcrumb && !$admin_context->isAdminRoute()) {
+        $title = $title_resolver->getTitle($request, $route_match->getRouteObject());
+        if (!empty($title)) {
+            $breadcrumb->addLink(Link::createFromRoute($title, '<none>'));
+        }
+    }
+}
+
+/**
+ * Return 'created' dates formatted and reduced by year for 'case_study' content
+ * types.
+ *
+ * @return array
+ */
+function _sl_base_case_note_years()
+{
+    $return = [];
+    $manager = \Drupal::service('entity.manager')->getStorage('node');
+    $query = \Drupal::entityQuery('node')
+        ->condition('status', 1)
+        ->condition('type', 'case_note');
+    $nids = $query->execute();
+    $nids = $manager->loadMultiple($nids);
+    foreach ($nids as $nid) {
+        $date = date('Y', $nid->getCreatedTime());
+        if (!in_array($date, $return)) {
+            $return[] = $date;
+        }
+    }
+    return $return;
+}
+
+/**
+ * Implements hook_base_form_alter().
+ *
+ * - Add 'dates' to 'created' exposed filter on 'views.case-notes.page'.
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function sl_base_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
+    // Add 'dates' to 'created' exposed filter on 'views.case-notes.page'.
+    if ('views_exposed_form' == $form_id && 'views-exposed-form-case-notes-page' == $form['#id']) {
+        $dates = ['' => t('All')];
+        foreach (_sl_base_case_note_years() as $date) {
+            $dates[$date] = $date;
+        }
+        $form['title']['#placeholder'] = t('Type keywords...');
+        unset($form['created']['#size']);
+        $form['created']['#type'] = 'select';
+        $form['created']['#default_value'] = '';
+        $form['created']['#options'] = $dates;
+    }
+}
+
+
+
+

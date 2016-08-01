@@ -1,0 +1,92 @@
+.breadcrumbs {
+	padding: 20px 0;
+	background: $alternate-color;
+	color: $base-color;
+}
+#block-breadcrumbs {
+	h2 {
+		display: inline-block;
+
+		&:after {
+			content: ' : '
+		}
+	}
+	nav {
+		display: inline-block;
+
+		li a {
+			color: $base-color;
+		}
+	}
+}
+.main-content {
+	padding: 80px 0;
+	background: $base-gray;
+
+	h1.js-quickedit-page-title {
+		font-size: $heading-fn-size + 6;
+		margin-bottom: 40px;
+		color: $alternate-color;
+		position: relative;
+
+		&:after {
+			content: '';
+			height: 3px;
+			background: $primar-color;
+			width: 70px;
+			position: absolute;
+			bottom: -20px;
+			left: 0;
+		}
+	}
+	article {
+		p {
+			font-size: $content-fn-size - 2;
+		}
+	}
+}
+.sidebar {
+	background: #3a4052;
+	color: $base-color;
+	width: 90%;
+	padding: 20px;
+	margin: 0 auto;
+
+	@media screen and (max-width:991px) {
+		width: 100%;
+	}
+	form {
+		label {
+			font-size: $content-fn-size - 2;
+			text-transform: uppercase;
+			padding: 0 0 10px;
+			font-weight: bold;
+		}
+		input, select {
+			height: 50px;
+			width: 100%;
+			margin-bottom: 25px;
+			color: $black;
+		}
+		.button {
+			padding: 12px 25px;
+			border-radius: 40px;
+			display: inline-block;
+			margin: 0px auto 20px;
+			color: $base-color;
+			background: $primar-color;
+			border: none;
+			-webkit-transition: background 0.5s ease;
+			transition: background 0.5s ease;
+			height: auto;
+			width: 100px;
+			font-weight: bold;
+
+			&:hover {
+				text-decoration: none;
+				background: $alternate-color;
+				color: $base-color;
+			}
+		}
+	}
+}

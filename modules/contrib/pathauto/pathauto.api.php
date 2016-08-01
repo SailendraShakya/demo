@@ -58,7 +58,8 @@ use Drupal\Core\Language\Language;
  *   Alias type definitions.
  *
  */
-function hook_path_alias_types_alter(array &$definitions) {
+function hook_path_alias_types_alter(array &$definitions)
+{
 }
 
 /**
@@ -80,10 +81,11 @@ function hook_path_alias_types_alter(array &$definitions) {
  *
  * @see pathauto_alias_uniquify()
  */
-function hook_pathauto_is_alias_reserved($alias, $source, $langcode) {
-  // Check our module's list of paths and return TRUE if $alias matches any of
-  // them.
-  return (bool) db_query("SELECT 1 FROM {mytable} WHERE path = :path", array(':path' => $alias))->fetchField();
+function hook_pathauto_is_alias_reserved($alias, $source, $langcode)
+{
+    // Check our module's list of paths and return TRUE if $alias matches any of
+    // them.
+    return (bool)db_query("SELECT 1 FROM {mytable} WHERE path = :path", array(':path' => $alias))->fetchField();
 }
 
 /**
@@ -106,11 +108,12 @@ function hook_pathauto_is_alias_reserved($alias, $source, $langcode) {
  *   - 'language': A string of the language code for the alias (e.g. 'en').
  *     This can be altered by reference.
  */
-function hook_pathauto_pattern_alter(&$pattern, array $context) {
-  // Switch out any [node:created:*] tokens with [node:updated:*] on update.
-  if ($context['module'] == 'node' && ($context['op'] == 'update')) {
-    $pattern = preg_replace('/\[node:created(\:[^]]*)?\]/', '[node:updated$1]', $pattern);
-  }
+function hook_pathauto_pattern_alter(&$pattern, array $context)
+{
+    // Switch out any [node:created:*] tokens with [node:updated:*] on update.
+    if ($context['module'] == 'node' && ($context['op'] == 'update')) {
+        $pattern = preg_replace('/\[node:created(\:[^]]*)?\]/', '[node:updated$1]', $pattern);
+    }
 }
 
 /**
@@ -131,12 +134,13 @@ function hook_pathauto_pattern_alter(&$pattern, array $context) {
  *     This can be altered by reference.
  *   - 'pattern': A string of the pattern used for aliasing the object.
  */
-function hook_pathauto_alias_alter(&$alias, array &$context) {
-  // Add a suffix so that all aliases get saved as 'content/my-title.html'
-  $alias .= '.html';
+function hook_pathauto_alias_alter(&$alias, array &$context)
+{
+    // Add a suffix so that all aliases get saved as 'content/my-title.html'
+    $alias .= '.html';
 
-  // Force all aliases to be saved as language neutral.
-  $context['language'] = Language::LANGCODE_NOT_SPECIFIED;
+    // Force all aliases to be saved as language neutral.
+    $context['language'] = Language::LANGCODE_NOT_SPECIFIED;
 }
 
 /**
@@ -150,10 +154,11 @@ function hook_pathauto_alias_alter(&$alias, array &$context) {
  *   - name: The human-readable name of the punctuation mark. This must be
  *     translated using t() already.
  */
-function hook_pathauto_punctuation_chars_alter(array &$punctuation) {
-  // Add the trademark symbol.
-  $punctuation['trademark'] = array('value' => '™', 'name' => t('Trademark symbol'));
+function hook_pathauto_punctuation_chars_alter(array &$punctuation)
+{
+    // Add the trademark symbol.
+    $punctuation['trademark'] = array('value' => '™', 'name' => t('Trademark symbol'));
 
-  // Remove the dollar sign.
-  unset($punctuation['dollar']);
+    // Remove the dollar sign.
+    unset($punctuation['dollar']);
 }

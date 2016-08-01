@@ -1,0 +1,5 @@
+name: dg_base
+type: module
+description: Provides all the base configuration and settings for the DG CMS profile.
+core: 8.x
+package: DG Core

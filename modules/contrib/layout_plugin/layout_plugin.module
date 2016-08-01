@@ -9,22 +9,25 @@ use \Drupal\layout_plugin\Layout;
 /**
  * Implements hook_theme().
  */
-function layout_plugin_theme() {
-  return Layout::layoutPluginManager()->getThemeImplementations();
+function layout_plugin_theme()
+{
+    return Layout::layoutPluginManager()->getThemeImplementations();
 }
 
 /**
  * Implements hook_theme_registry_alter().
  */
-function layout_plugin_theme_registry_alter(&$theme_registry) {
-  Layout::layoutPluginManager()->alterThemeImplementations($theme_registry);
+function layout_plugin_theme_registry_alter(&$theme_registry)
+{
+    Layout::layoutPluginManager()->alterThemeImplementations($theme_registry);
 }
 
 /**
  * Implements hook_library_info_build().
  */
-function layout_plugin_library_info_build() {
-  return Layout::layoutPluginManager()->getLibraryInfo();
+function layout_plugin_library_info_build()
+{
+    return Layout::layoutPluginManager()->getLibraryInfo();
 }
 
 /**
@@ -38,8 +41,9 @@ function layout_plugin_library_info_build() {
  *   - element: An associative array containing the properties of the element.
  *     Properties used: #settings, #layout
  */
-function _layout_plugin_preprocess_layout(&$variables) {
-  $content = $variables['content'];
-  $variables['settings'] = $content['#settings'] ?: [];
-  $variables['layout'] = $content['#layout'] ?: [];
+function _layout_plugin_preprocess_layout(&$variables)
+{
+    $content = $variables['content'];
+    $variables['settings'] = $content['#settings'] ?: [];
+    $variables['layout'] = $content['#layout'] ?: [];
 }

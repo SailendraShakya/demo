@@ -1,0 +1,21 @@
+ipsum.ipsum_controller_index:
+  path: 'ipsum/index'
+  defaults:
+    _controller: '\Drupal\ipsum\Controller\IpsumController::index'
+    _title: 'My first controller'
+  requirements:
+    _permission: 'access content'
+ipsum.ipsum_controller_generate:
+  path: 'ipsum/generate/{paragraphs}/{phrases}'
+  defaults:
+    _controller: '\Drupal\ipsum\Controller\IpsumController::generate'
+  requirements:
+    _permission: 'generate lorem ipsum'
+
+loremipsum.form:
+  path: '/admin/config/development/ipsum'
+  defaults:
+    _form: 'Drupal\ipsum\Form\IpsumForm'
+    _title: 'Ipsum settings'
+  requirements:
+    _permission: 'administer site configuration'
